@@ -26,4 +26,11 @@ public class Pessoa {
     public long getCpf() {
         return cpf;
     }
+
+    public void imprimirPessoa() {
+        System.out.println(
+                "   Nome: " + this.nome +
+                "   CPF: " + this.cpf
+        );
+    }
 }
