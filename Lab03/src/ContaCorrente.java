@@ -71,8 +71,6 @@ public class ContaCorrente {
                 valor, new Date()));
     }
 
-
-
     /**
      * Transfere um valor desta conta para a conta destino informada, se houver saldo suficiente
      * nesta conta.
@@ -101,5 +99,12 @@ public class ContaCorrente {
         contaDestino.historicoDeOperacoes.add(String.format(
                 "Transferência recebida da conta %d: R$%.2f na data %s",
                 this.numeroDaConta, valor, new Date()));
+    }
+
+    public void imprimirContaCorrente() {
+        System.out.println(
+                "   Numero da conta: " + this.numeroDaConta +
+                "   saldo em reais: " + this.saldoEmReais
+        );
     }
 }
