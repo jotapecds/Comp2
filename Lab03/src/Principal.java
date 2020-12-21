@@ -8,29 +8,45 @@ public class Principal {
     static ArrayList<Pessoa> pessoas = new ArrayList();
     static Agencia agencia = new Agencia();
 
-    static void realizarDeposito() {
+    static void realizarDeposito() throws InterruptedException {
+        System.out.println("Digite o numero da conta: ");
+        long numeroDaConta = scanner.nextLong();
 
+        System.out.println("Digite o valor do deposito: ");
+        float valor = scanner.nextFloat();
+
+        for(int i=0; i<contas.size(); i++) {
+            if(contas.get(i).getNumeroDaConta() == numeroDaConta) {
+                contas.get(i).depositar(valor);
+                System.out.println("Deposito no valor de "+ valor +" reais realizado com sucesso!");
+                //System.out.println(contas.get(i).getUltimaOperacao()+"\n\n\n");
+                new Thread().sleep(2000);
+                return;
+            }
+        }
+        System.out.println("Nao foi possivel encontrar uma conta com esse numero");
+        new Thread().sleep(2000);
     }
 
     static void realizarSaque() throws InterruptedException {
         System.out.println("Digite o numero da conta: ");
         long numeroDaConta = scanner.nextLong();
 
-        System.out.println("Digite o valor do saque");
+        System.out.println("Digite o valor do saque: ");
         float valor = scanner.nextFloat();
 
         for(int i=0; i<contas.size(); i++) {
             if(contas.get(i).getNumeroDaConta() == numeroDaConta) {
                 contas.get(i).sacar(valor);
-                System.out.println("Saque de " + valor + " reais realizado com sucesso!\n\n\n");
+                System.out.println("Saque de " + valor + " reais realizado com sucesso!");
                 new Thread().sleep(2000);
                 return;
             }
         }
-
+        System.out.println("Nao foi possivel encontrar uma conta com esse numero");
+        new Thread().sleep(2000);
     }
 
-    // ToDo assim que arrumar o numero da conta voltar pra testar essa função
     static void realizarTransferencia() throws InterruptedException {
         System.out.println("Digite o numero da conta origem");
         long numeroContaOrigem = scanner.nextLong();
@@ -53,13 +69,13 @@ public class Principal {
                 }
             }
         }
-
+        System.out.println("Nao foi possivel encontrar uma conta com esse numero");
+        new Thread().sleep(2000);
     }
 
     static void consultarSaldo() throws InterruptedException {
         System.out.print("Digite o numero da conta: ");
         long numeroDaConta = scanner.nextLong();
-        limparBuffer(scanner);
 
         for(int i=0; i<contas.size(); i++) {
             if(contas.get(i).getNumeroDaConta() == numeroDaConta) {
@@ -68,9 +84,8 @@ public class Principal {
                 return;
             }
         }
-
         System.out.println("Nao foi possivel encontrar uma conta com esse numero");
-        new Thread().sleep(3000);
+        new Thread().sleep(2000);
     }
 
     static void cadastrarPessoa() throws InterruptedException {
@@ -79,12 +94,12 @@ public class Principal {
 
         System.out.print("Digite seu CPF: ");
         long cpf = scanner.nextLong();
-        limparBuffer(scanner);
 
         for (int i=0; i<pessoas.size(); i++) {
             if(pessoas.get(i).getCpf() == cpf) {
                 System.out.println("Ja existe alguem com esse cpf\n\n\n");
                 new Thread().sleep(2000);
+                return;
             }
         }
 
@@ -96,7 +111,6 @@ public class Principal {
     static void criarNovaConta() throws InterruptedException {
         System.out.print("\n\n\nDigite seu CPF: ");
         long cpf = scanner.nextLong();
-        limparBuffer(scanner);
 
         for (int i=0; i<pessoas.size(); i++) {
             if(pessoas.get(i).getCpf() == cpf) {
@@ -106,7 +120,6 @@ public class Principal {
                 return;
             }
         }
-
         System.out.print("Nao foi possivel criar a sua conta. Seu CPF nao consta no sistema\n\n\n");
         new Thread().sleep(2000);
     }
@@ -143,6 +156,9 @@ public class Principal {
                 case 'p' : cadastrarPessoa(); break;
                 case 'n' : criarNovaConta(); break;
                 case 'x' : break;
+                default  :
+                    System.out.println("\n Opcao invalida\n");
+                    new Thread().sleep(2000);
             }
         }
 

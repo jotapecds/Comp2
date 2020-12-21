@@ -6,6 +6,8 @@ public class ContaCorrente {
     // o banco já te dá algo como estímulo :-)
     public static final float SALDO_INICIAL_DE_NOVAS_CONTAS = 10.0f;
 
+    private static long contador;
+
     private final long numeroDaConta;
 
     private final Agencia agencia;
@@ -24,10 +26,8 @@ public class ContaCorrente {
         this.historicoDeOperacoes = new ArrayList<>();
         this.dataDeCriacao = new Date();  // data corrente
         this.saldoEmReais = SALDO_INICIAL_DE_NOVAS_CONTAS;
-
-        // ToDO FIX ME!!!!
-        this.numeroDaConta = 0;  //.................?????
-
+        this.contador++;
+        this.numeroDaConta = this.contador;
         this.correntista = correntista;
         this.agencia = agencia;
     }
@@ -104,7 +104,12 @@ public class ContaCorrente {
     public void imprimirContaCorrente() {
         System.out.println(
                 "   Numero da conta: " + this.numeroDaConta +
-                "   saldo em reais: " + this.saldoEmReais
+                "   Saldo em reais: " + this.saldoEmReais +
+                "   Contador: " + this.contador
         );
+    }
+
+    public String getUltimaOperacao() {
+        return this.historicoDeOperacoes.get(this.historicoDeOperacoes.size() -1);
     }
 }
