@@ -49,8 +49,7 @@ public class ContaCorrente {
         // altera o saldo
         saldoEmReais += valor;
 
-        historicoDeOperacoes.add("Deposito em dinheiro: R$" + valor +
-                " na data " + new Date());
+        historicoDeOperacoes.add(String.format("Deposito em dinheiro: R$%.2f na data %s", valor, new Date()));
     }
 
     public void sacar(float valor) {
@@ -101,7 +100,7 @@ public class ContaCorrente {
                 this.numeroDaConta, valor, new Date()));
     }
 
-    public void imprimirContaCorrente() {
+    public void printContaCorrente() {
         System.out.println(
                 "   Numero da conta: " + this.numeroDaConta +
                 "   Saldo em reais: " + this.saldoEmReais +
@@ -109,7 +108,17 @@ public class ContaCorrente {
         );
     }
 
-    public String getUltimaOperacao() {
-        return this.historicoDeOperacoes.get(this.historicoDeOperacoes.size() -1);
+    public void printUltimaOperacao(int quantidadeDelinhas) {
+        if(quantidadeDelinhas < 0) {
+            quantidadeDelinhas = 1;
+        }
+
+        String pulaLinha = "";
+
+        for(int i=0; i<quantidadeDelinhas; i++) {
+            pulaLinha += "\n";
+        }
+
+        System.out.print("\n"+this.historicoDeOperacoes.get(this.historicoDeOperacoes.size() -1) + pulaLinha);
     }
 }
