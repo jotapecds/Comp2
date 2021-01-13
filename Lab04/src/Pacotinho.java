@@ -1,45 +1,55 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Pacotinho extends ArrayList<Figurinha> {
 
     private Album album;
+        private int quantFigurinhas;
 
     // ToDo atributo que seja uma estrutura para guardar as figurinhas deste pacotinho
 
     public Pacotinho(Album album) {
         this.album = album;
+        this.quantFigurinhas = this.album.getQuantFigurinhasPorPacotinho();
         adicionarFigurinhasAleatorias();
-
     }
 
     // sobrecarga no costrutor, passando aqui as posições desejadas
     public Pacotinho(Album album, int[] posicoes) {
         this.album = album;
 
-        // verificar se o tamanho do array está correto;
-        // caso não esteja, throw new RuntimeException("Pacotinho no tamanho errado!");
+        if(this.album.getQuantFigurinhasPorPacotinho() == posicoes.length)
+            this.quantFigurinhas = posicoes.length;
+        else
+            throw new RuntimeException("Pacotinho no tamanho errado!");
 
+        adicionarFigurinhasSelecionadas(posicoes);
     }
 
     private void adicionarFigurinhasAleatorias() {
-        int maxPosicao = album.getTamanho();
-        int quantFigurinhasPorPacotinho = album.getQuantFigurinhasPorPacotinho();
+        int maxPosicao = this.album.getTamanho();
+        Random gerador = new Random();
 
-        for (int i = 1; i <= quantFigurinhasPorPacotinho; i++) {
-            // ToDo sorteia uma posição entre 1 e o tamanho do álbum
-            int posicao = 0;
-
-
-            // ToDo cria um novo objeto Figurinha informando a posição sorteada
-
-            // ToDo adiciona ao pacotinho
+        for (int i = 1; i <= this.quantFigurinhas; i++) {
+            int posicao = gerador.nextInt(maxPosicao);
 
             Figurinha figurinha = new Figurinha(posicao);
             add(figurinha);
         }
     }
 
+    public void adicionarFigurinhasSelecionadas(int[] posicoes) {
+        for (int i = 0; i < posicoes.length; i++) {
+            Figurinha figurinha = new Figurinha(posicoes[i]);
+            add(figurinha);
+        }
+    }
+
     public Album getAlbum() {
         return this.album;
+    }
+
+    public int getQuantFigurinhas() {
+            return quantFigurinhas;
     }
 }

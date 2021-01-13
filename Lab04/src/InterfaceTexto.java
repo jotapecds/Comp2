@@ -10,7 +10,7 @@ public class InterfaceTexto {
 
         Album album = new Album(200, 3);
 
-        Pacotinho p1 = new Pacotinho(album, new int[] {1, 6, 18});
+        Pacotinho p1 = new Pacotinho(album);
 
         album.receberNovoPacotinho(p1);
 
@@ -22,6 +22,7 @@ public class InterfaceTexto {
         System.out.println("Quant figurinhas coladas? " + album.getQuantFigurinhasColadas());
 
         Pacotinho p2 = new Pacotinho(album, new int[] {3, 6, 44});
+        album.receberNovoPacotinho(p2);
 
         System.out.println("Tem figurinha repetida 6? " + album.possuiFigurinhaRepetida(6));
         System.out.println("Quant figurinhas coladas? " + album.getQuantFigurinhasColadas());

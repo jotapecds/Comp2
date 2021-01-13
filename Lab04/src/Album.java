@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Album {
 
@@ -14,14 +15,18 @@ public class Album {
         this.tamanhoDoAlbum = tamanhoDoAlbum;
         this.quantFigurinhasPorPacotinho = quantFigurinhasPorPacotinho;
         this.quantPacotinhosComprados = 0;
+        this.figurinhasColadas = new ArrayList<>();
+        this.figurinhasReptidas = new ArrayList<>();
     }
 
     public void receberNovoPacotinho(Pacotinho pacotinho) {
         this.quantPacotinhosComprados++;
         for (Figurinha fig : pacotinho) {
             int pos = fig.getPosicao();
+
             if(this.possuiFigurinhaColada(pos)){
                 int indexRepetida = this.existeFigurinhaRepetida(pos);
+
                 if(indexRepetida >= 0)
                     this.figurinhasReptidas.get(indexRepetida).adicionarRepetida(); // Incrementar repetida antiga
                 else
@@ -34,9 +39,21 @@ public class Album {
     }
 
     public void autoCompletar() {
-        // verifica se o álbum já está suficientemente cheio
+        if(getQuantFigurinhasColadas() <= this.tamanhoDoAlbum * 0.9)
+            return;
 
-        // ToDo IMPLEMENT ME!!
+        for(int i = 1; i <= this.tamanhoDoAlbum; i++) {
+            for(Figurinha fig : this.figurinhasColadas) {
+                if (fig.getPosicao() == i) {
+                    break;
+                }
+                else {
+                    Figurinha figurinha = new Figurinha(i);
+                    this.figurinhasColadas.add(figurinha);
+                }
+            }
+
+        }
     }
 
     public int getTamanho() {
@@ -69,13 +86,12 @@ public class Album {
     }
 
     public boolean possuiFigurinhaRepetida(int posicao) {
-        // ToDo IMPLEMENT ME!!!
+        for(FigurinhaRepetida fig : this.figurinhasReptidas) {
+            if(fig.getPosicao() == posicao) {
+                return true;
+            }
+        }
         return false;
-    }
-
-    public int getQuantFigurinhasFaltantes() {
-        // ToDo IMPLEMENT ME!!!
-        return 0;
     }
 
     private int existeFigurinhaRepetida(int posicao) {
@@ -85,5 +101,10 @@ public class Album {
             }
         }
         return -1;
+    }
+
+    public int getQuantFigurinhasFaltantes() {
+        int result = this.tamanhoDoAlbum - this.figurinhasColadas.size();
+        return result;
     }
 }
