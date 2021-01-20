@@ -22,6 +22,11 @@ public abstract class JogoDeDoisJogadores {
 
     public int getNumeroDeRodadas() { return this.numeroDeRodadas; }
 
+    /**
+     * Este método implementa uma partida de um jogo de dois jogadores
+     *
+     * @return uma string com o resultado do jogo
+     */
     protected String jogar() {
         int vitoriasJogador1 = 0,
             vitoriasJogador2 = 0,
@@ -53,5 +58,13 @@ public abstract class JogoDeDoisJogadores {
 
     }
 
+    /**
+     * Esse método implementa uma rodada da partida do jogo.
+     *
+     * @return um inteiro indicando o resultado da rodada:
+     *         1 -> vitória do jogador 1;
+     *         2 -> vitória do jogador 2;
+     *         3 -> empate
+     */
     protected abstract int executarRodadaDoJogo();
 }

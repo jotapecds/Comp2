@@ -9,6 +9,14 @@ public class JogoMalucoComSorteadores extends JogoDeDoisJogadores {
         this.sorteadorJogador2 = sorteador2;
     }
 
+    /**
+     * Esse método implementa uma rodada da partida do jogo.
+     *
+     * @return um inteiro indicando o resultado da rodada:
+     *         1 -> vitória do jogador 1;
+     *         2 -> vitória do jogador 2;
+     *         3 -> empate
+     */
     @Override
     protected int executarRodadaDoJogo() {
         int numeroJogador1 = sorteadorJogador1.sortear();
