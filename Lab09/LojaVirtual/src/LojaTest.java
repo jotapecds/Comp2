@@ -1,5 +1,6 @@
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Categories;
 
 import static org.junit.Assert.*;
 
@@ -23,13 +24,12 @@ public class LojaTest {
 
         loja = new Loja(
                 gatoPreto,                // informamos à loja qual a transportadora que ela vai usar (agregação)
-                impressoraJatoDeTinta1);  // ...e o serviço de impressão que ela vai usar (agregação tb)
+                impressoraJatoDeTinta1);  // ...e o serviço de impressão que ela vai usar (agregação tb);
 
-
-        livro1 = new Livro(12345, "Da Terra à Lua", "Julio Verne", null, 1865);
+        livro1 = new Livro(12345, "Da Terra à Lua", "Julio Verne", null, 1865, Categoria.LIVRO_DIDATICO);
         livro1.setPrecoEmReais(25);
 
-        livro2 = new Livro(12446, "Dom Quixote", "Miguel de Cervantes", null, 1605);
+        livro2 = new Livro(12446, "Dom Quixote", "Miguel de Cervantes", null, 1605, Categoria.FICCAO);
         livro2.setPrecoEmReais(42.30f);
 
         cd1 = new CD(121223, "Ride The Lightning", "Metallica", 1985);
@@ -53,27 +53,61 @@ public class LojaTest {
             EnderecoInvalidoException, ErroNoPagamentoException {
 
         String recibo = null;
-        recibo = loja.receberPedido(livro2, 5, comprador);
-
-        assertNotNull(recibo);
-        System.out.println(recibo);
-
-        recibo = loja.receberPedido(cd1, 1, comprador);
-        assertNotNull(recibo);
-        System.out.println(recibo);
-
-        recibo = loja.receberPedido(bicicleta1, 3, comprador);
+        recibo = loja.receberPedido(cd1, 3, comprador);
         assertNotNull(recibo);
         System.out.println(recibo);
     }
 
     @Test
-    public void testarVendaParaProdutoNaoExistente() throws
-            EnderecoInvalidoException, ItemNaoExisteNoCatalogoException,
-            EstoqueInsuficienteException, ErroNoPagamentoException {
+    public void testarVendaParaProdutoNaoExistente() {
 
-        Livro livroNaoExistente = new Livro(1010101, "Blah", "Qualquer coisa", null, 2000);
-        String recibo = loja.receberPedido(livroNaoExistente, 5, comprador);
-        assertNull(recibo);
+        Livro livroNaoExistente = new Livro(1010101,
+                "Blah",
+                "Qualquer coisa",
+                null,
+                2000,
+                Categoria.LIVRO_DIDATICO);
+
+        String recibo = null;
+
+        try {
+            recibo = loja.receberPedido(livroNaoExistente, 5, comprador);
+        }
+        catch (ItemNaoExisteNoCatalogoException  |
+                    EstoqueInsuficienteException |
+                    EnderecoInvalidoException    |
+                    ErroNoPagamentoException e) {
+            assertNull(recibo);
+        }
+    }
+
+    @Test
+    public void testarVendaComDescontoParaLivrosDidaticos() {
+        String recibo = null;
+        int quantidade = 4;
+        try {
+
+            recibo = loja.receberPedido(livro1, quantidade, comprador);
+
+            int index = recibo.indexOf("$");
+            float valorComDesconto = new Float(
+                        recibo.substring(index + 1,index + 6)
+                            .replace(",","."))
+                            .longValue();
+
+            float valorSemDesconto = livro1.getPrecoEmReais() * quantidade;
+
+            System.out.println("Valor sem desconto: " + valorSemDesconto +
+                    "\nValor com desconto: " + valorComDesconto);
+
+            assertNotEquals(valorComDesconto,valorSemDesconto);
+
+        }
+        catch (ItemNaoExisteNoCatalogoException  |
+                    EstoqueInsuficienteException |
+                    EnderecoInvalidoException    |
+                    ErroNoPagamentoException e) {
+            System.out.println("Algo de errado não está certo");
+        }
     }
 }

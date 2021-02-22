@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Livro extends ArtigoCultural {
 
     private final int codigoISBN;
@@ -86,5 +88,19 @@ public class Livro extends ArtigoCultural {
                 "Ano de publicação: " + getAnoPublicacao() +
                 "Número de páginas: " + getNumeroDePaginas() +
                 "Categoria: " + getCategoria();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Livro that = (Livro) o;
+
+        return Objects.equals(this.codigoISBN, that.codigoISBN) && Objects.equals(this.categoria, that.categoria);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigoISBN, categoria);
     }
 }

@@ -35,7 +35,7 @@ public class Principal {
 
         Loja minhaLoja = new Loja(transportadora, impressora);
         Livro livro1 = new Livro(11111, "O Pequeno Principe", "Saint Exupery",
-                "Abril", 1920);
+                "Abril", 1920, Categoria.LIVRO_DIDATICO);
         minhaLoja.incluirItem(livro1);
 
         Usuario joao = new Usuario(123456, "Joao");

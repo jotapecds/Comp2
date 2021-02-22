@@ -64,8 +64,8 @@ public class Loja {
 
             // verifica se a categoria do livro é "Livro  didatico" e adiciona um desconto
             if(livro.getCategoria().equals("LD")){
-                float desconto = livro.getPrecoEmReais() * 0.2f;
-                precoTotal = quantidade * livro.getPrecoEmReais() - desconto;
+                float desconto = livro.getPrecoEmReais() * quantidade * 0.2f;
+                precoTotal = (quantidade * livro.getPrecoEmReais()) - desconto;
             }
             else precoTotal = quantidade * item.getPrecoEmReais();;
         }
